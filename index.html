@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roberta Salerno — Personal Trainer</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700;800&family=Fraunces:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sand:#F3ECDE;
+    --sand-deep:#EAE0CC;
+    --ink:#20241E;
+    --ink-soft:#2E332A;
+    --rust:#C1502E;
+    --rust-deep:#A23E22;
+    --olive:#A23E22;
+    --olive-soft:#B84E2E;
+    --lime:#C1502E;
+    --cream:#F8F4EA;
+    --line: rgba(32,36,30,0.14);
+    --line-light: rgba(248,244,234,0.18);
+    --shadow: 0 20px 50px rgba(32,36,30,0.14);
+    --radius: 4px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--sand);
+    color:var(--ink);
+    font-family:'Manrope', sans-serif;
+    font-weight:500;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  img{display:block; max-width:100%; height:auto;}
+  a{color:inherit; text-decoration:none;}
+  ul{list-style:none;}
+
+  h1,h2,h3,.display{
+    font-family:'Bebas Neue', sans-serif;
+    font-weight:400;
+    letter-spacing:0.01em;
+    line-height:0.95;
+    text-transform:uppercase;
+  }
+  .eyebrow{
+    font-family:'Manrope', sans-serif;
+    font-weight:800;
+    font-size:0.72rem;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--rust);
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:22px;
+    height:2px;
+    background:var(--rust);
+    display:inline-block;
+  }
+  .accent-serif{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:500;
+    text-transform:none;
+    letter-spacing:0;
+  }
+
+  .container{
+    width:100%;
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  /* ===== Lane-line motif (signature element) ===== */
+  .lane-lines{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    overflow:hidden;
+    z-index:0;
+  }
+  .lane-lines span{
+    position:absolute;
+    top:-10%;
+    bottom:-10%;
+    width:2px;
+    background:currentColor;
+    opacity:0.08;
+    transform:rotate(8deg);
+  }
+
+  .bib{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Bebas Neue', sans-serif;
+    font-size:1.1rem;
+    letter-spacing:0.05em;
+    background:var(--cream);
+    color:var(--ink);
+    border:2px solid var(--ink);
+    border-radius:3px;
+    padding:6px 14px;
+    transform:rotate(-3deg);
+    box-shadow:3px 3px 0 var(--rust);
+    position:relative;
+  }
+  .bib::after{
+    content:"";
+    position:absolute;
+    top:-5px; left:14px;
+    width:6px; height:10px;
+    background:var(--sand);
+    border:2px solid var(--ink);
+    border-radius:1px;
+  }
+
+  /* ===== reveal on scroll ===== */
+  .reveal{
+    opacity:0;
+    transform:translateY(28px);
+    transition:opacity 0.8s cubic-bezier(.2,.8,.2,1), transform 0.8s cubic-bezier(.2,.8,.2,1);
+  }
+  .reveal.visible{
+    opacity:1;
+    transform:translateY(0);
+  }
+  .reveal-delay-1{transition-delay:0.1s;}
+  .reveal-delay-2{transition-delay:0.2s;}
+  .reveal-delay-3{transition-delay:0.3s;}
+
+  /* ===== Header ===== */
+  header{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:100;
+    padding:22px 0;
+    transition:padding 0.35s ease, background 0.35s ease, box-shadow 0.35s ease;
+  }
+  header.scrolled{
+    padding:12px 0;
+    background:rgba(243,236,222,0.92);
+    backdrop-filter:blur(10px);
+    box-shadow:0 4px 24px rgba(32,36,30,0.08);
+  }
+  .header-inner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .logo{
+    font-family:'Bebas Neue', sans-serif;
+    font-size:1.5rem;
+    letter-spacing:0.03em;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .logo span{
+    color:var(--rust);
+  }
+  nav.main-nav{
+    display:flex;
+    align-items:center;
+    gap:36px;
+  }
+  nav.main-nav a{
+    font-size:0.85rem;
+    font-weight:700;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    position:relative;
+    padding-bottom:4px;
+  }
+  nav.main-nav a::after{
+    content:"";
+    position:absolute;
+    left:0; bottom:0;
+    width:0%;
+    height:2px;
+    background:var(--rust);
+    transition:width 0.3s ease;
+  }
+  nav.main-nav a:hover::after{ width:100%; }
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    font-family:'Manrope', sans-serif;
+    font-weight:800;
+    font-size:0.82rem;
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+    padding:14px 28px;
+    border-radius:2px;
+    border:2px solid var(--ink);
+    cursor:pointer;
+    transition:transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, color 0.25s ease;
+    white-space:nowrap;
+  }
+  .btn-primary{
+    background:var(--rust);
+    border-color:var(--rust);
+    color:var(--cream);
+    animation:pulse-primary 2.2s ease-in-out infinite;
+  }
+  .btn-primary:hover{
+    transform:translate(-2px,-2px);
+    animation:none;
+    box-shadow:6px 6px 0 var(--ink);
+  }
+  .btn-ghost{
+    background:transparent;
+    color:var(--ink);
+    animation:pulse-ghost 2.2s ease-in-out infinite;
+  }
+  .btn-ghost:hover{
+    transform:translate(-2px,-2px);
+    animation:none;
+    box-shadow:6px 6px 0 var(--rust);
+  }
+  .btn-dark{
+    background:var(--ink);
+    border-color:var(--ink);
+    color:var(--sand);
+    animation:pulse-dark 2.2s ease-in-out infinite;
+  }
+  .btn-dark:hover{
+    transform:translate(-2px,-2px);
+    animation:none;
+    box-shadow:6px 6px 0 var(--lime);
+  }
+  .btn-block{ width:100%; }
+  @keyframes pulse-primary{
+    0%,100%{ box-shadow:4px 4px 0 var(--ink), 0 0 0 0 rgba(193,80,46,0.35); }
+    50%{ box-shadow:4px 4px 0 var(--ink), 0 0 18px 6px rgba(193,80,46,0.55); }
+  }
+  @keyframes pulse-ghost{
+    0%,100%{ box-shadow:4px 4px 0 var(--rust), 0 0 0 0 rgba(193,80,46,0.25); }
+    50%{ box-shadow:4px 4px 0 var(--rust), 0 0 16px 5px rgba(193,80,46,0.4); }
+  }
+  @keyframes pulse-dark{
+    0%,100%{ box-shadow:4px 4px 0 var(--lime), 0 0 0 0 rgba(193,80,46,0.3); }
+    50%{ box-shadow:4px 4px 0 var(--lime), 0 0 16px 5px rgba(193,80,46,0.5); }
+  }
+
+  .menu-toggle{
+    display:none;
+    flex-direction:column;
+    gap:5px;
+    background:none;
+    border:none;
+    cursor:pointer;
+    padding:6px;
+  }
+  .menu-toggle span{
+    width:26px;
+    height:2px;
+    background:var(--ink);
+    transition:transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  /* ===== Hero ===== */
+  .hero{
+    position:relative;
+    padding:170px 0 100px;
+    background:var(--sand);
+    overflow:hidden;
+  }
+  .hero-grid{
+    position:relative;
+    z-index:2;
+    display:grid;
+    grid-template-columns:1.05fr 0.95fr;
+    gap:50px;
+    align-items:center;
+  }
+  .hero-title{
+    font-size:clamp(3rem, 6.4vw, 5.6rem);
+    color:var(--ink);
+  }
+  .hero-title em{
+    font-style:normal;
+    color:var(--rust);
+  }
+  .hero-sub{
+    margin-top:24px;
+    max-width:460px;
+    font-size:1.05rem;
+    color:var(--ink-soft);
+  }
+  .hero-actions{
+    margin-top:38px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:18px;
+  }
+  .hero-visual{
+    position:relative;
+  }
+  .hero-photo-frame{
+    position:relative;
+    border-radius:6px;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+    border:6px solid var(--cream);
+  }
+  .hero-photo-frame img{
+    width:100%;
+    height:560px;
+    object-fit:cover;
+  }
+  .hero-badge{
+    position:absolute;
+    bottom:-22px;
+    left:-30px;
+    background:var(--ink);
+    color:var(--sand);
+    padding:18px 22px;
+    border-radius:4px;
+    box-shadow:var(--shadow);
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    z-index:3;
+  }
+  .hero-badge .num{
+    font-family:'Bebas Neue', sans-serif;
+    font-size:2.4rem;
+    color:var(--lime);
+    line-height:1;
+  }
+  .hero-badge .lbl{
+    font-size:0.68rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    font-weight:700;
+    color:var(--sand-deep);
+  }
+  .hero-chip{
+    position:absolute;
+    top:26px;
+    right:-18px;
+    background:var(--rust);
+    color:var(--cream);
+    padding:10px 18px;
+    border-radius:30px;
+    font-size:0.8rem;
+    font-weight:700;
+    box-shadow:var(--shadow);
+    transform:rotate(4deg);
+    z-index:3;
+  }
+  .hero-stripe{
+    position:absolute;
+    top:12%;
+    right:-6%;
+    width:220px;
+    height:220px;
+    border:2px solid var(--olive);
+    border-radius:50%;
+    opacity:0.35;
+    z-index:1;
+  }
+
+  /* ===== Section base ===== */
+  section{
+    position:relative;
+    padding:120px 0;
+  }
+  .section-head{
+    max-width:640px;
+    margin-bottom:64px;
+  }
+  .section-head h2{
+    margin-top:16px;
+    font-size:clamp(2.2rem, 4vw, 3.3rem);
+  }
+  .section-head p{
+    margin-top:18px;
+    color:var(--ink-soft);
+    font-size:1.02rem;
+  }
+  .center{ text-align:center; margin-left:auto; margin-right:auto; }
+
+  /* ===== About ===== */
+  .about{ background:var(--cream); }
+  .about-grid{
+    display:grid;
+    grid-template-columns:0.85fr 1.15fr;
+    gap:70px;
+    align-items:center;
+  }
+  .about-photo{
+    position:relative;
+  }
+  .about-photo img{
+    border-radius:6px;
+    width:100%;
+    height:520px;
+    object-fit:cover;
+    box-shadow:var(--shadow);
+  }
+  .about-photo .tag{
+    position:absolute;
+    bottom:24px;
+    left:-24px;
+    background:var(--sand);
+    padding:14px 20px;
+    border:2px solid var(--ink);
+    border-radius:4px;
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:0.95rem;
+    box-shadow:5px 5px 0 var(--rust);
+  }
+  .about-text .eyebrow{ margin-bottom:14px; }
+  .about-text h2{
+    font-size:clamp(2rem, 3.6vw, 3rem);
+    margin-bottom:22px;
+  }
+  .about-text p{
+    color:var(--ink-soft);
+    margin-bottom:18px;
+    max-width:520px;
+  }
+  .cred-list{
+    margin-top:26px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .cred-list li{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    font-size:0.95rem;
+    color:var(--ink);
+    font-weight:600;
+  }
+  .cred-list li::before{
+    content:"";
+    width:8px; height:8px;
+    margin-top:7px;
+    background:var(--rust);
+    border-radius:50%;
+    flex-shrink:0;
+  }
+  .about-stats{
+    margin-top:40px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+    border-top:1px solid var(--line);
+    padding-top:30px;
+  }
+  .about-stats .stat-num{
+    font-family:'Bebas Neue', sans-serif;
+    font-size:2.6rem;
+    color:var(--rust);
+    line-height:1;
+  }
+  .about-stats .stat-lbl{
+    font-size:0.72rem;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    font-weight:700;
+    color:var(--ink-soft);
+    margin-top:6px;
+  }
+
+  /* ===== Method ===== */
+  .method{ background:var(--ink); color:var(--sand); }
+  .method .eyebrow{ color:var(--lime); }
+  .method .eyebrow::before{ background:var(--lime); }
+  .method .section-head p{ color:var(--sand-deep); }
+  .method-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:28px;
+  }
+  .method-card{
+    background:var(--ink-soft);
+    border:1px solid var(--line-light);
+    border-radius:6px;
+    padding:38px 30px;
+    position:relative;
+    transition:transform 0.35s ease, border-color 0.35s ease;
+  }
+  .method-card:hover{
+    transform:translateY(-8px);
+    border-color:var(--lime);
+  }
+  .method-card .bib{
+    margin-bottom:26px;
+  }
+  .method-card h3{
+    font-size:1.6rem;
+    margin-bottom:14px;
+    color:var(--cream);
+  }
+  .method-card p{
+    color:var(--sand-deep);
+    font-size:0.95rem;
+  }
+  .method-connector{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--lime);
+    opacity:0.5;
+  }
+
+  /* ===== Programs ===== */
+  .programs{ background:var(--sand); }
+  .programs-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:26px;
+    align-items:stretch;
+  }
+  .plan-card{
+    background:var(--cream);
+    border:2px solid var(--ink);
+    border-radius:8px;
+    padding:38px 32px;
+    display:flex;
+    flex-direction:column;
+    position:relative;
+    transition:transform 0.35s ease, box-shadow 0.35s ease;
+    box-shadow:6px 6px 0 rgba(32,36,30,0.08);
+  }
+  .plan-card:hover{
+    transform:translateY(-10px);
+    box-shadow:10px 14px 0 rgba(32,36,30,0.12);
+  }
+  .plan-card.featured{
+    background:var(--ink);
+    color:var(--cream);
+    border-color:var(--rust);
+    box-shadow:6px 6px 0 var(--rust);
+  }
+  .plan-card.featured:hover{
+    box-shadow:10px 14px 0 var(--rust);
+  }
+  .plan-tag{
+    position:absolute;
+    top:-14px;
+    right:26px;
+    background:var(--rust);
+    color:var(--cream);
+    font-size:0.68rem;
+    font-weight:800;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    padding:7px 14px;
+    border-radius:20px;
+  }
+  .plan-name{
+    font-family:'Bebas Neue', sans-serif;
+    font-size:1.9rem;
+    letter-spacing:0.02em;
+  }
+  .plan-desc{
+    margin-top:10px;
+    font-size:0.9rem;
+    opacity:0.85;
+    min-height:44px;
+  }
+  .plan-price{
+    margin-top:26px;
+    display:flex;
+    align-items:baseline;
+    gap:8px;
+  }
+  .plan-price .amount{
+    font-family:'Bebas Neue', sans-serif;
+    font-size:3.2rem;
+    line-height:1;
+  }
+  .plan-price .period{
+    font-size:0.85rem;
+    font-weight:700;
+    opacity:0.75;
+  }
+  .plan-features{
+    margin-top:28px;
+    display:flex;
+    flex-direction:column;
+    gap:13px;
+    flex-grow:1;
+  }
+  .plan-features li{
+    display:flex;
+    gap:10px;
+    font-size:0.9rem;
+    font-weight:600;
+  }
+  .plan-features li::before{
+    content:"✓";
+    font-weight:800;
+    color:var(--rust);
+    flex-shrink:0;
+  }
+  .plan-card.featured .plan-features li::before{
+    color:var(--lime);
+  }
+  .plan-card .btn{ margin-top:32px; }
+
+  .programs-note{
+    margin-top:56px;
+    width:100%;
+    box-sizing:border-box;
+    text-align:center;
+    background:var(--ink);
+    border:2px solid var(--rust);
+    box-shadow:4px 4px 0 var(--rust);
+    padding:32px 40px;
+    border-radius:2px;
+  }
+  .programs-note p{
+    font-size:1.08rem;
+    font-weight:600;
+    color:var(--cream);
+    margin:0;
+    line-height:1.5;
+  }
+  .programs-note a.note-link{
+    color:var(--lime);
+    text-decoration:underline;
+    text-underline-offset:3px;
+  }
+  @media (max-width:560px){
+    .programs-note{ padding:22px 20px; }
+  }
+
+  /* ===== Results ===== */
+  .results{ background:var(--cream); }
+  .stats-row{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:24px;
+    margin-bottom:90px;
+  }
+  .stat-block{
+    text-align:center;
+    padding:34px 18px;
+    border-left:1px solid var(--line);
+  }
+  .stat-block:first-child{ border-left:none; }
+  .stat-block .num{
+    font-family:'Bebas Neue', sans-serif;
+    font-size:3.4rem;
+    color:var(--rust);
+    line-height:1;
+  }
+  .stat-block .lbl{
+    margin-top:10px;
+    font-size:0.78rem;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    font-weight:700;
+    color:var(--ink-soft);
+  }
+  .testi-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:26px;
+  }
+  .testi-card{
+    background:var(--sand);
+    border-radius:8px;
+    padding:32px 28px;
+    transition:transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow:0 10px 26px rgba(32,36,30,0.06);
+  }
+  .testi-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 16px 34px rgba(32,36,30,0.12);
+  }
+  .stars{
+    color:var(--rust);
+    font-size:0.95rem;
+    letter-spacing:2px;
+    margin-bottom:16px;
+  }
+  .testi-quote{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:1.05rem;
+    color:var(--ink);
+    margin-bottom:24px;
+  }
+  .testi-author{
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+  .testi-author img{
+    width:52px; height:52px;
+    border-radius:50%;
+    object-fit:cover;
+    border:2px solid var(--ink);
+  }
+  .testi-author .name{
+    font-weight:800;
+    font-size:0.92rem;
+  }
+  .testi-author .role{
+    font-size:0.78rem;
+    color:var(--ink-soft);
+  }
+
+  /* ===== Gallery ===== */
+  .gallery{ background:var(--sand); }
+  .gallery-grid{
+    display:flex;
+    justify-content:center;
+  }
+  .gallery-grid a{
+    position:relative;
+    overflow:hidden;
+    border-radius:6px;
+    display:block;
+  }
+  .gallery-grid a::after{
+    content:"";
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, transparent 50%, rgba(32,36,30,0.55) 100%);
+    opacity:0;
+    transition:opacity 0.35s ease;
+  }
+  .gallery-grid a:hover::after{ opacity:1; }
+  .gallery-grid img{
+    width:100%; height:100%;
+    object-fit:cover;
+    transition:transform 0.5s ease;
+  }
+  .gallery-grid a:hover img{ transform:scale(1.08); }
+  .gallery-grid .video-tile{
+    position:relative;
+    overflow:hidden;
+    border-radius:6px;
+    display:block;
+    width:100%;
+    max-width:380px;
+    aspect-ratio:9/16;
+  }
+  .gallery-grid .video-tile video{
+    width:100%; height:100%;
+    object-fit:cover;
+    display:block;
+  }
+
+  /* ===== Contact ===== */
+  .contact{ background:var(--ink); color:var(--sand); }
+  .contact .eyebrow{ color:var(--lime); }
+  .contact .eyebrow::before{ background:var(--lime); }
+  .contact-grid{
+    display:grid;
+    grid-template-columns:1fr 1.05fr;
+    gap:70px;
+  }
+  .contact-info h2{
+    font-size:clamp(2.2rem, 4vw, 3.2rem);
+    margin-bottom:22px;
+    color:var(--cream);
+  }
+  .contact-info p{
+    color:var(--sand-deep);
+    max-width:420px;
+    margin-bottom:36px;
+  }
+  .info-row{
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+  .info-item{
+    display:flex;
+    gap:16px;
+    align-items:flex-start;
+    padding-bottom:20px;
+    border-bottom:1px solid var(--line-light);
+  }
+  .info-item .ico{
+    width:38px; height:38px;
+    border-radius:50%;
+    background:var(--olive);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    color:var(--lime);
+    font-size:0.9rem;
+  }
+  .info-item .lbl{
+    font-size:0.7rem;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--sand-deep);
+    font-weight:700;
+  }
+  .info-item .val{
+    font-weight:700;
+    margin-top:2px;
+  }
+  .ig-link{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    margin-top:34px;
+    padding:13px 22px;
+    border:2px solid var(--sand);
+    border-radius:30px;
+    color:var(--sand);
+    font-weight:800;
+    font-size:0.8rem;
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+    transition:background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+  .ig-link svg{
+    width:20px; height:20px;
+    fill:currentColor;
+    flex-shrink:0;
+  }
+  .ig-link:hover{
+    background:var(--rust);
+    color:var(--cream);
+    border-color:var(--rust);
+  }
+
+  .contact-form{
+    background:var(--sand);
+    color:var(--ink);
+    border-radius:10px;
+    padding:40px;
+    box-shadow:var(--shadow);
+  }
+  .form-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+  }
+  .field{
+    margin-bottom:20px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .field label{
+    font-size:0.72rem;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    font-weight:800;
+    color:var(--ink-soft);
+  }
+  .field input, .field select, .field textarea{
+    font-family:'Manrope', sans-serif;
+    font-size:0.95rem;
+    font-weight:600;
+    padding:13px 14px;
+    border:1.5px solid var(--line);
+    border-radius:4px;
+    background:var(--cream);
+    color:var(--ink);
+    outline:none;
+    transition:border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{
+    border-color:var(--rust);
+    box-shadow:0 0 0 3px rgba(193,80,46,0.15);
+  }
+  .field textarea{ resize:vertical; min-height:110px; }
+  .form-note{
+    font-size:0.78rem;
+    color:var(--ink-soft);
+    margin-top:14px;
+    text-align:center;
+  }
+  .form-success{
+    display:none;
+    background:var(--olive);
+    color:var(--cream);
+    padding:16px 18px;
+    border-radius:6px;
+    font-size:0.9rem;
+    font-weight:700;
+    margin-bottom:20px;
+    text-align:center;
+  }
+  .form-success.show{ display:block; }
+
+  /* ===== Footer ===== */
+  footer{
+    background:var(--ink);
+    color:var(--sand-deep);
+    padding:60px 0 30px;
+    border-top:1px solid var(--line-light);
+  }
+  .footer-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:30px;
+    padding-bottom:40px;
+    border-bottom:1px solid var(--line-light);
+    margin-bottom:30px;
+  }
+  .footer-top .logo{ color:var(--cream); }
+  .footer-nav{
+    display:flex;
+    gap:30px;
+    flex-wrap:wrap;
+  }
+  .footer-nav a{
+    font-size:0.82rem;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.03em;
+  }
+  .footer-nav a:hover{ color:var(--lime); }
+  .footer-bottom{
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:12px;
+    font-size:0.78rem;
+  }
+  .site-credit{
+    margin-top:22px;
+    padding-top:18px;
+    border-top:1px solid var(--line-light);
+    text-align:center;
+  }
+  .site-credit a{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:0.8rem;
+    letter-spacing:0.01em;
+    color:rgba(248,244,234,0.38);
+    transition:color 0.25s ease;
+  }
+  .site-credit a:hover{
+    color:var(--lime);
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 980px){
+    .hero-grid{ grid-template-columns:1fr; }
+    .hero-visual{ order:-1; max-width:420px; margin:0 auto; }
+    .about-grid{ grid-template-columns:1fr; }
+    .about-photo{ max-width:420px; margin:0 auto; }
+    .method-grid{ grid-template-columns:1fr; }
+    .programs-grid{ grid-template-columns:1fr; }
+    .stats-row{ grid-template-columns:repeat(2,1fr); }
+    .stat-block:nth-child(2){ border-left:none; }
+    .stat-block{ border-left:none; border-top:1px solid var(--line); }
+    .testi-grid{ grid-template-columns:1fr; }
+    .contact-grid{ grid-template-columns:1fr; }
+    .contact-form{ padding:28px; }
+  }
+  @media (max-width: 720px){
+    nav.main-nav, .header-actions{ display:none; }
+    .menu-toggle{ display:flex; }
+    header.open nav.main-nav{
+      display:flex;
+      position:fixed;
+      top:64px; left:0; right:0;
+      background:var(--sand);
+      flex-direction:column;
+      align-items:flex-start;
+      gap:0;
+      padding:10px 32px 26px;
+      box-shadow:0 20px 30px rgba(32,36,30,0.1);
+    }
+    header.open nav.main-nav a{ padding:14px 0; width:100%; border-bottom:1px solid var(--line); }
+    header.open .header-actions{
+      display:flex;
+      position:fixed;
+      top:auto;
+      left:32px; right:32px;
+      margin-top:0;
+    }
+    .hero{ padding:130px 0 70px; }
+    .about-stats{ display:none; }
+    .hero-visual{ max-width:none; width:calc(100% + 64px); margin:0 -32px; }
+    .hero-photo-frame{ border-radius:0; border-width:0 0 6px 0; }
+    .hero-photo-frame img{ height:62vh; }
+    .hero-badge{ left:12px; bottom:-18px; padding:12px 16px; }
+    .hero-chip{ right:6px; top:14px; }
+    section{ padding:80px 0; }
+    .about-stats{ grid-template-columns:1fr 1fr; }
+    .form-row{ grid-template-columns:1fr; }
+    .field:has(#email){ display:none; }
+    .gallery-grid .video-tile{ max-width:100%; }
+    .footer-top{ flex-direction:column; align-items:flex-start; }
+  }
+
+/* WHATSAPP FLOAT */
+.wa-float{
+  position:fixed;
+  bottom:28px;
+  right:28px;
+  z-index:998;
+  width:54px;
+  height:54px;
+  background:#25d366;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 4px 20px rgba(37,211,102,.4);
+  transition:transform .2s,box-shadow .2s;
+  text-decoration:none;
+}
+.wa-float:hover{
+  transform:scale(1.1);
+  box-shadow:0 8px 32px rgba(37,211,102,.6);
+}
+.wa-float svg{
+  width:28px;
+  height:28px;
+  fill:#fff;
+}
+@media (max-width:560px){
+  .wa-float{ bottom:20px; right:20px; }
+}
+</style>
+</head>
+<body>
+
+<header id="site-header">
+  <div class="container header-inner">
+    <a href="#top" class="logo">ROBERTA<span>·</span>SALERNO</a>
+    <nav class="main-nav" id="main-nav">
+      <a href="#chi-sono">Chi sono</a>
+      <a href="#metodo">Metodo</a>
+      <a href="#programmi">Programmi</a>
+      <a href="#risultati">Risultati</a>
+      <a href="#galleria">Galleria</a>
+      <a href="#contatti">Contatti</a>
+    </nav>
+    <div class="header-actions">
+      <a href="#contatti" class="btn btn-primary">Prenota una call</a>
+    </div>
+    <button class="menu-toggle" id="menu-toggle" aria-label="Apri menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="lane-lines" style="color:var(--olive);">
+    <span style="left:8%;"></span>
+    <span style="left:22%;"></span>
+    <span style="left:60%;"></span>
+    <span style="left:88%;"></span>
+  </div>
+  <div class="container hero-grid">
+    <div class="hero-copy reveal">
+      <span class="eyebrow">Personal Trainer · [Città], Italia</span>
+      <h1 class="hero-title">TRASFORMA<br>IL CORPO.<br><em>RISCRIVI</em> I LIMITI.</h1>
+      <p class="hero-sub">Presentazione breve del metodo di allenamento, del pubblico a cui ti rivolgi e della promessa principale del tuo percorso di coaching.</p>
+      <div class="hero-actions">
+        <a href="#contatti" class="btn btn-primary">Consulenza gratuita</a>
+        <a href="#metodo" class="btn btn-ghost">Scopri il metodo</a>
+      </div>
+    </div>
+    <div class="hero-visual reveal reveal-delay-2">
+      <div class="hero-stripe"></div>
+      <div class="hero-photo-frame">
+        <img src="/img/hero.jpg" alt="Roberta Salerno, personal trainer">
+      </div>
+      <div class="hero-chip">★ 4.9/5 su [Piattaforma]</div>
+      <div class="hero-badge">
+        <span class="num">8+</span>
+        <span class="lbl">Anni di esperienza</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="chi-sono">
+  <div class="container about-grid">
+    <div class="about-photo reveal">
+      <img src="/img/chi-sono.jpg" alt="Roberta Salerno durante una sessione di allenamento">
+      <div class="tag">"Ogni corpo ha una sua strada."</div>
+    </div>
+    <div class="about-text reveal reveal-delay-1">
+      <span class="eyebrow">Chi sono</span>
+      <h2>Roberta Salerno</h2>
+      <p>Racconto personale su come è nata la passione per il fitness, il percorso professionale e la filosofia di allenamento di Roberta.</p>
+      <p>Descrizione del pubblico ideale — ad esempio donne 25-45 anni che vogliono ricomposizione corporea, forza funzionale e uno stile di vita sostenibile, senza diete estreme.</p>
+      <ul class="cred-list">
+        <li>[Certificazione placeholder — es. Laurea in Scienze Motorie]</li>
+        <li>[Certificazione placeholder — es. Personal Trainer certificata NASM]</li>
+        <li>[Certificazione placeholder — es. Coach certificata allenamento funzionale]</li>
+      </ul>
+      <div class="about-stats">
+        <div>
+          <div class="stat-num">8</div>
+          <div class="stat-lbl">Anni esperienza</div>
+        </div>
+        <div>
+          <div class="stat-num">150+</div>
+          <div class="stat-lbl">Clienti seguiti</div>
+        </div>
+        <div>
+          <div class="stat-num">4.9</div>
+          <div class="stat-lbl">Valutazione media</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="method" id="metodo">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Il metodo</span>
+      <h2>Tre passi verso<br>il tuo obiettivo</h2>
+      <p>Breve introduzione al processo di lavoro, dalla prima valutazione fino al monitoraggio costante dei progressi.</p>
+    </div>
+    <div class="method-grid">
+      <div class="method-card reveal reveal-delay-1">
+        <span class="bib">N.01</span>
+        <h3>Valutazione iniziale</h3>
+        <p>Analisi posturale, obiettivi, storico sportivo e stile di vita per costruire un punto di partenza chiaro.</p>
+      </div>
+      <div class="method-card reveal reveal-delay-2">
+        <span class="bib">N.02</span>
+        <h3>Programma su misura</h3>
+        <p>Creazione di un piano di allenamento personalizzato, calibrato sui tempi e le esigenze del cliente.</p>
+      </div>
+      <div class="method-card reveal reveal-delay-3">
+        <span class="bib">N.03</span>
+        <h3>Allenamento e monitoraggio</h3>
+        <p>Sessioni guidate, check-in periodici e aggiustamenti del programma in base ai risultati ottenuti.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="programs" id="programmi">
+  <div class="container">
+    <div class="section-head center reveal">
+      <span class="eyebrow">Programmi</span>
+      <h2>Scegli il tuo percorso</h2>
+      <p>Tre modalità pensate per esigenze diverse: prova il metodo con una seduta singola, oppure scegli un pacchetto per un percorso continuativo — con un approccio sempre personalizzato sul tuo livello.</p>
+    </div>
+    <div class="programs-grid">
+      <div class="plan-card reveal reveal-delay-1">
+        <div class="plan-name">Seduta Singola</div>
+        <div class="plan-desc">Prova il metodo. Nessun vincolo, nessun abbonamento.</div>
+        <div class="plan-price">
+          <span class="amount">€50</span>
+          <span class="period">/ seduta</span>
+        </div>
+        <ul class="plan-features">
+          <li>Valutazione iniziale e allenamento su misura</li>
+          <li>Personal training + postural training</li>
+          <li>Ideale per capire se il metodo fa per te</li>
+        </ul>
+        <a href="#contatti" class="btn btn-ghost btn-block">Prenota la seduta</a>
+      </div>
+
+      <div class="plan-card featured reveal reveal-delay-2">
+        <div class="plan-tag">Più scelto</div>
+        <div class="plan-name">Pacchetto 5 Sessioni</div>
+        <div class="plan-desc">Il ritmo giusto per iniziare a vedere risultati concreti.</div>
+        <div class="plan-price">
+          <span class="amount">€200</span>
+          <span class="period">/ 40€ a seduta</span>
+        </div>
+        <ul class="plan-features">
+          <li>Personal training + postural training personalizzato</li>
+          <li>Programma adattato al tuo livello e ai tuoi obiettivi</li>
+          <li>Pagamento flessibile in due tranche</li>
+        </ul>
+        <a href="#contatti" class="btn btn-dark btn-block">Scegli il pacchetto</a>
+      </div>
+
+      <div class="plan-card reveal reveal-delay-3">
+        <div class="plan-name">Pacchetto 10 Sessioni</div>
+        <div class="plan-desc">Il massimo impegno, per una trasformazione reale.</div>
+        <div class="plan-price">
+          <span class="amount">€300</span>
+          <span class="period">/ 30€ a seduta</span>
+        </div>
+        <ul class="plan-features">
+          <li>Percorso completo per una trasformazione reale</li>
+          <li>Massima costanza nel tempo</li>
+          <li>Il prezzo più conveniente per seduta</li>
+        </ul>
+        <a href="#contatti" class="btn btn-ghost btn-block">Scegli il pacchetto</a>
+      </div>
+    </div>
+    <div class="programs-note">
+      <p>Cerchi solo un programma da seguire in autonomia, senza sedute dal vivo? Chiedimi la <a href="#contatti" class="note-link">scheda di allenamento personalizzata — 50€</a>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="results" id="risultati">
+  <div class="container">
+    <div class="section-head center reveal">
+      <span class="eyebrow">Risultati</span>
+      <h2>I numeri parlano<br>da soli</h2>
+    </div>
+    <div class="stats-row reveal reveal-delay-1">
+      <div class="stat-block">
+        <div class="num">150+</div>
+        <div class="lbl">Clienti seguiti</div>
+      </div>
+      <div class="stat-block">
+        <div class="num">92%</div>
+        <div class="lbl">Raggiunge l'obiettivo</div>
+      </div>
+      <div class="stat-block">
+        <div class="num">8</div>
+        <div class="lbl">Anni di esperienza</div>
+      </div>
+      <div class="stat-block">
+        <div class="num">4.9/5</div>
+        <div class="lbl">Valutazione media</div>
+      </div>
+    </div>
+
+    <div class="testi-grid">
+      <div class="testi-card reveal reveal-delay-1">
+        <div class="stars">★★★★★</div>
+        <p class="testi-quote">"Testimonianza di un cliente sul percorso svolto con Roberta e sui risultati ottenuti."</p>
+        <div class="testi-author">
+          <img src="https://i.pravatar.cc/120?img=32" alt="[Nome Cognome]">
+          <div>
+            <div class="name">[Nome Cognome]</div>
+            <div class="role">[Cliente da 8 mesi]</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal reveal-delay-2">
+        <div class="stars">★★★★★</div>
+        <p class="testi-quote">"Testimonianza sul cambiamento nello stile di vita e nella costanza grazie al programma di Roberta."</p>
+        <div class="testi-author">
+          <img src="https://i.pravatar.cc/120?img=47" alt="[Nome Cognome]">
+          <div>
+            <div class="name">[Nome Cognome]</div>
+            <div class="role">[Cliente da 1 anno]</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal reveal-delay-3">
+        <div class="stars">★★★★★</div>
+        <p class="testi-quote">"Testimonianza sull'attenzione personalizzata e sui progressi misurabili raggiunti in poco tempo."</p>
+        <div class="testi-author">
+          <img src="https://i.pravatar.cc/120?img=25" alt="[Nome Cognome]">
+          <div>
+            <div class="name">[Nome Cognome]</div>
+            <div class="role">[Cliente da 5 mesi]</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="gallery" id="galleria">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Galleria</span>
+      <h2>Momenti di allenamento</h2>
+    </div>
+    <div class="gallery-grid reveal reveal-delay-1">
+      <div class="video-tile"><video autoplay muted loop playsinline poster="/img/video-poster.jpg"><source src="/roberta-video.mp4" type="video/mp4"></video></div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contatti">
+  <div class="container contact-grid">
+    <div class="contact-info reveal">
+      <span class="eyebrow">Contatti</span>
+      <h2>Iniziamo il tuo percorso</h2>
+      <p>Invito a compilare il modulo per fissare una consulenza gratuita e conoscere il metodo di Roberta.</p>
+      <div class="info-row">
+        <div class="info-item">
+          <div class="ico">@</div>
+          <div>
+            <div class="lbl">Email</div>
+            <div class="val">salerno.roberta@libero.it</div>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="ico">☎</div>
+          <div>
+            <div class="lbl">Telefono</div>
+            <div class="val">+39 348 676 2576</div>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="ico">⌖</div>
+          <div>
+            <div class="lbl">Studio</div>
+            <div class="val">[Indirizzo placeholder, Città, Italia]</div>
+          </div>
+        </div>
+      </div>
+      <a href="https://www.instagram.com/r.salerno_pt_posturale/" target="_blank" rel="noopener" class="ig-link">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.332.014 7.052.072 2.695.272.273 2.69.073 7.052.014 8.332 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.332 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.668-.072-4.948C23.73 2.7 21.31.273 16.951.073 15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        <span>Seguimi su Instagram</span>
+      </a>
+    </div>
+
+    <div class="contact-form reveal reveal-delay-2">
+      <div class="form-success" id="form-success">Grazie! Conferma invio richiesta.</div>
+      <form id="contact-form">
+        <input type="hidden" name="_subject" value="Nuova richiesta dal sito - Roberta Salerno">
+        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+        <div class="form-row">
+          <div class="field">
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" name="nome" required>
+          </div>
+          <div class="field">
+            <label for="cognome">Cognome</label>
+            <input type="text" id="cognome" name="cognome" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+          <div class="field">
+            <label for="telefono">Telefono</label>
+            <input type="tel" id="telefono" name="telefono">
+          </div>
+        </div>
+        <div class="field">
+          <label for="messaggio">Messaggio</label>
+          <textarea id="messaggio" name="messaggio"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Invia richiesta</button>
+        <p class="form-note">Nota su privacy e tempi di risposta.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <a href="#top" class="logo">ROBERTA<span>·</span>SALERNO</a>
+      <nav class="footer-nav">
+        <a href="#chi-sono">Chi sono</a>
+        <a href="#metodo">Metodo</a>
+        <a href="#programmi">Programmi</a>
+        <a href="#risultati">Risultati</a>
+        <a href="#galleria">Galleria</a>
+        <a href="#contatti">Contatti</a>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Roberta Salerno Personal Training. Tutti i diritti riservati.</span>
+      <span>[P.IVA placeholder 00000000000]</span>
+    </div>
+    <div class="site-credit">
+      <a href="https://www.clickbari.it" target="_blank" rel="noopener">Sito realizzato da ClickBari</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Header shrink + mobile menu
+  const header = document.getElementById('site-header');
+  const menuToggle = document.getElementById('menu-toggle');
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 40) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+
+  menuToggle.addEventListener('click', () => {
+    header.classList.toggle('open');
+  });
+
+  document.querySelectorAll('nav.main-nav a').forEach(link => {
+    link.addEventListener('click', () => {
+      header.classList.remove('open');
+    });
+  });
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+  revealEls.forEach(el => observer.observe(el));
+
+  // Form submit -> FormSubmit.co (invia a email, senza backend proprio)
+  const FORM_TARGET_EMAIL = "salerno.roberta@libero.it";
+  const form = document.getElementById('contact-form');
+  const success = document.getElementById('form-success');
+  const submitBtn = form.querySelector('button[type="submit"]');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Invio in corso...';
+    fetch(`https://formsubmit.co/ajax/${FORM_TARGET_EMAIL}`, {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: new FormData(form)
+    })
+    .then((res) => res.json())
+    .then(() => {
+      success.classList.add('show');
+      form.reset();
+      success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    })
+    .catch(() => {
+      alert('Invio non riuscito. Riprova o scrivi su WhatsApp.');
+    })
+    .finally(() => {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Invia richiesta';
+    });
+  });
+</script>
+
+<!-- WhatsApp Float -->
+<a class="wa-float" href="https://wa.me/393486762576" target="_blank" rel="noopener" aria-label="Contatta Roberta su WhatsApp">
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+</svg>
+</a>
+
+</body>
+</html>
