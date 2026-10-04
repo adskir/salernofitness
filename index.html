@@ -7,10 +7,15 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700;800&family=Fraunces:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+<link rel="preload" href="/fonts/manrope-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/bebas-neue-400.woff2" as="font" type="font/woff2" crossorigin>
 <style>
+  /* Font ospitati localmente (nessuna connessione a Google Fonts) */
+  @font-face{font-family:'Bebas Neue';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/bebas-neue-400.woff2) format('woff2')}
+  @font-face{font-family:'Manrope';font-style:normal;font-weight:200 800;font-display:swap;src:url(/fonts/manrope-var.woff2) format('woff2')}
+  @font-face{font-family:'Fraunces';font-style:normal;font-weight:100 900;font-display:swap;src:url(/fonts/fraunces-var.woff2) format('woff2')}
+  @font-face{font-family:'Fraunces';font-style:italic;font-weight:100 900;font-display:swap;src:url(/fonts/fraunces-var-italic.woff2) format('woff2')}
+
   :root{
     --sand:#F3ECDE;
     --sand-deep:#EAE0CC;
@@ -144,11 +149,41 @@
     position:fixed;
     top:0; left:0; right:0;
     z-index:100;
-    padding:22px 0;
-    transition:padding 0.35s ease, background 0.35s ease, box-shadow 0.35s ease;
+    transition:background 0.35s ease, box-shadow 0.35s ease;
   }
+  header .header-inner{
+    padding-top:22px;
+    padding-bottom:22px;
+    transition:padding 0.35s ease;
+  }
+  header.scrolled .header-inner{
+    padding-top:12px;
+    padding-bottom:12px;
+  }
+  /* Striscia "sito in sviluppo" */
+  .dev-strip{
+    height:28px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    background:var(--ink);
+    color:rgba(243,236,222,0.72);
+    font-size:0.66rem;
+    font-weight:700;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    white-space:nowrap;
+  }
+  .dev-strip::before{
+    content:"";
+    width:5px; height:5px;
+    border-radius:50%;
+    background:var(--rust);
+  }
+  .dev-strip a{ color:#E58A66; transition:color 0.25s ease; }
+  .dev-strip a:hover{ color:var(--cream); }
   header.scrolled{
-    padding:12px 0;
     background:rgba(243,236,222,0.92);
     backdrop-filter:blur(10px);
     box-shadow:0 4px 24px rgba(32,36,30,0.08);
@@ -275,7 +310,7 @@
   /* ===== Hero ===== */
   .hero{
     position:relative;
-    padding:170px 0 100px;
+    padding:198px 0 100px;
     background:var(--sand);
     overflow:hidden;
   }
@@ -981,7 +1016,7 @@
     header.open nav.main-nav{
       display:flex;
       position:fixed;
-      top:64px; left:0; right:0;
+      top:92px; left:0; right:0;
       background:var(--sand);
       flex-direction:column;
       align-items:flex-start;
@@ -997,7 +1032,7 @@
       left:32px; right:32px;
       margin-top:0;
     }
-    .hero{ padding:130px 0 70px; }
+    .hero{ padding:150px 0 70px; }
     .about-stats{ display:none; }
     .hero-visual{ max-width:none; width:calc(100% + 64px); margin:0 -32px; }
     .hero-photo-frame{ border-radius:0; border-width:0 0 6px 0; }
@@ -1007,10 +1042,48 @@
     section{ padding:80px 0; }
     .about-stats{ grid-template-columns:1fr 1fr; }
     .form-row{ grid-template-columns:1fr; }
-    .field:has(#email){ display:none; }
     .gallery-grid .video-tile{ max-width:100%; }
     .footer-top{ flex-direction:column; align-items:flex-start; }
   }
+
+/* AVVISO COOKIE (solo informativo: il sito usa unicamente storage tecnico) */
+.cookie{
+  position:fixed;
+  left:16px;
+  bottom:16px;
+  z-index:997;
+  max-width:420px;
+  display:none;
+  align-items:center;
+  gap:14px;
+  background:var(--ink);
+  color:var(--sand);
+  padding:14px 16px;
+  border-radius:6px;
+  box-shadow:0 14px 40px rgba(32,36,30,0.3);
+  font-size:0.85rem;
+  line-height:1.45;
+}
+.cookie.show{ display:flex; }
+.cookie a{ color:#E58A66; text-decoration:underline; text-underline-offset:3px; }
+.cookie button{
+  flex-shrink:0;
+  background:var(--rust);
+  color:var(--cream);
+  border:0;
+  border-radius:2px;
+  padding:9px 16px;
+  font-family:'Manrope', sans-serif;
+  font-weight:800;
+  font-size:0.75rem;
+  letter-spacing:0.04em;
+  text-transform:uppercase;
+  cursor:pointer;
+}
+.cookie button:hover{ background:var(--rust-deep); }
+@media (max-width:560px){
+  .cookie{ left:12px; right:88px; bottom:12px; }
+}
 
 /* WHATSAPP FLOAT */
 .wa-float{
@@ -1046,6 +1119,7 @@
 <body>
 
 <header id="site-header">
+  <div class="dev-strip">Sito in fase di sviluppo · <a href="https://clickbari.it" target="_blank" rel="noopener">clickbari.it</a></div>
   <div class="container header-inner">
     <a href="#top" class="logo">ROBERTA<span>·</span>SALERNO</a>
     <nav class="main-nav" id="main-nav">
@@ -1357,7 +1431,7 @@
           <textarea id="messaggio" name="messaggio"></textarea>
         </div>
         <button type="submit" class="btn btn-primary btn-block">Invia richiesta</button>
-        <p class="form-note">Nota su privacy e tempi di risposta.</p>
+        <p class="form-note">Inviando il modulo dichiari di aver letto la <a href="/privacy.html" style="text-decoration:underline;text-underline-offset:3px">Privacy Policy</a>.</p>
       </form>
     </div>
   </div>
@@ -1378,7 +1452,7 @@
     </div>
     <div class="footer-bottom">
       <span>© 2026 Roberta Salerno Personal Training. Tutti i diritti riservati.</span>
-      <span>[P.IVA placeholder 00000000000]</span>
+      <span>[P.IVA placeholder 00000000000] · <a href="/privacy.html" style="text-decoration:underline;text-underline-offset:3px">Privacy e cookie</a></span>
     </div>
     <div class="site-credit">
       <a href="https://www.clickbari.it" target="_blank" rel="noopener">Sito realizzato da ClickBari</a>
@@ -1450,6 +1524,23 @@
       submitBtn.textContent = 'Invia richiesta';
     });
   });
+</script>
+
+<!-- Avviso cookie -->
+<div class="cookie" id="cookie" role="region" aria-label="Informativa cookie">
+  <p>Usiamo solo cookie tecnici, nessun tracciamento né pubblicità. <a href="/privacy.html#cookie">Dettagli</a></p>
+  <button type="button" id="cookie-ok">Ho capito</button>
+</div>
+<script>
+  (function(){
+    var box = document.getElementById('cookie'), seen = null;
+    try { seen = localStorage.getItem('rs-cookie-ok'); } catch(e) {}
+    if (!seen) box.classList.add('show');
+    document.getElementById('cookie-ok').addEventListener('click', function(){
+      try { localStorage.setItem('rs-cookie-ok', '1'); } catch(e) {}
+      box.classList.remove('show');
+    });
+  })();
 </script>
 
 <!-- WhatsApp Float -->
