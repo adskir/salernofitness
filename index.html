@@ -3,7 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Roberta Salerno — Personal Trainer</title>
+<title>Roberta Salerno — Personal Trainer e allenamento posturale</title>
+<meta name="description" content="Roberta Salerno, personal trainer e allenamento posturale. Valutazione iniziale, programma su misura e consulenza gratuita: scrivimi su WhatsApp o compila il modulo.">
+<link rel="canonical" href="https://salernofitness.it/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="it_IT">
+<meta property="og:site_name" content="Roberta Salerno Personal Trainer">
+<meta property="og:title" content="Roberta Salerno — Personal Trainer e allenamento posturale">
+<meta property="og:description" content="Valutazione iniziale, programma su misura e consulenza gratuita con Roberta Salerno, personal trainer.">
+<meta property="og:url" content="https://salernofitness.it/">
+<meta property="og:image" content="https://salernofitness.it/img/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#F3ECDE">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Roberta Salerno",
+  "jobTitle": "Personal trainer e allenamento posturale",
+  "url": "https://salernofitness.it/",
+  "image": "https://salernofitness.it/img/hero.jpg",
+  "email": "mailto:salerno.roberta@libero.it",
+  "telephone": "+39 348 676 2576",
+  "sameAs": ["https://www.instagram.com/r.salerno_pt_posturale/"]
+}
+</script>
 <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
@@ -743,6 +767,10 @@
     align-items:center;
     gap:14px;
   }
+  .testi-author .av{
+    flex:none; width:52px; height:52px; border-radius:50%;
+    border:2px solid var(--ink); background:var(--sand-deep);
+  }
   .testi-author img{
     width:52px; height:52px;
     border-radius:50%;
@@ -1321,7 +1349,7 @@
         <div class="stars">★★★★★</div>
         <p class="testi-quote">"Testimonianza di un cliente sul percorso svolto con Roberta e sui risultati ottenuti."</p>
         <div class="testi-author">
-          <img src="https://i.pravatar.cc/120?img=32" alt="[Nome Cognome]">
+          <span class="av" aria-hidden="true"></span>
           <div>
             <div class="name">[Nome Cognome]</div>
             <div class="role">[Cliente da 8 mesi]</div>
@@ -1332,7 +1360,7 @@
         <div class="stars">★★★★★</div>
         <p class="testi-quote">"Testimonianza sul cambiamento nello stile di vita e nella costanza grazie al programma di Roberta."</p>
         <div class="testi-author">
-          <img src="https://i.pravatar.cc/120?img=47" alt="[Nome Cognome]">
+          <span class="av" aria-hidden="true"></span>
           <div>
             <div class="name">[Nome Cognome]</div>
             <div class="role">[Cliente da 1 anno]</div>
@@ -1343,7 +1371,7 @@
         <div class="stars">★★★★★</div>
         <p class="testi-quote">"Testimonianza sull'attenzione personalizzata e sui progressi misurabili raggiunti in poco tempo."</p>
         <div class="testi-author">
-          <img src="https://i.pravatar.cc/120?img=25" alt="[Nome Cognome]">
+          <span class="av" aria-hidden="true"></span>
           <div>
             <div class="name">[Nome Cognome]</div>
             <div class="role">[Cliente da 5 mesi]</div>
@@ -1406,6 +1434,8 @@
       <form id="contact-form">
         <input type="hidden" name="_subject" value="Nuova richiesta dal sito - Roberta Salerno">
         <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+        <input type="hidden" name="_blacklist" value="seo, backlink, backlinks, crypto, bitcoin, casino, viagra, loan, forex, http://, https://">
+        <input type="hidden" name="_template" value="table">
         <div class="form-row">
           <div class="field">
             <label for="nome">Nome</label>
@@ -1501,8 +1531,25 @@
   const form = document.getElementById('contact-form');
   const success = document.getElementById('form-success');
   const submitBtn = form.querySelector('button[type="submit"]');
+  // Anti-bot: tempo minimo di compilazione + honeypot + controllo telefono
+  const formOpenedAt = Date.now();
+  const showErr = (msg) => {
+    let el = form.querySelector('.form-err');
+    if (!el) { el = document.createElement('p'); el.className = 'form-err'; el.style.cssText = 'margin:0 0 12px;color:var(--rust-deep);font-weight:700;font-size:.9rem'; submitBtn.insertAdjacentElement('beforebegin', el); }
+    el.textContent = msg;
+  };
   form.addEventListener('submit', (e) => {
     e.preventDefault();
+    const err = form.querySelector('.form-err'); if (err) err.remove();
+    // bot: campo nascosto compilato oppure invio in meno di 4 secondi -> fingiamo successo, non inviamo nulla
+    if (form._honey.value || Date.now() - formOpenedAt < 4000) {
+      success.classList.add('show'); form.reset(); return;
+    }
+    const tel = (form.telefono.value || '').replace(/\D/g, '');
+    if (tel && (tel.length < 9 || tel.length > 13)) {
+      showErr('Controlla il numero di telefono, per favore.');
+      form.telefono.focus(); return;
+    }
     submitBtn.disabled = true;
     submitBtn.textContent = 'Invio in corso...';
     fetch(`https://formsubmit.co/ajax/${FORM_TARGET_EMAIL}`, {
@@ -1510,14 +1557,15 @@
       headers: { 'Accept': 'application/json' },
       body: new FormData(form)
     })
-    .then((res) => res.json())
-    .then(() => {
+    .then((res) => res.json().then((data) => ({ ok: res.ok, data })))
+    .then(({ ok, data }) => {
+      if (!ok || String(data.success) !== 'true') throw new Error(data.message || 'invio non riuscito');
       success.classList.add('show');
       form.reset();
       success.scrollIntoView({ behavior: 'smooth', block: 'center' });
     })
     .catch(() => {
-      alert('Invio non riuscito. Riprova o scrivi su WhatsApp.');
+      showErr('Invio non riuscito. Riprova o scrivi su WhatsApp: +39 348 676 2576.');
     })
     .finally(() => {
       submitBtn.disabled = false;
